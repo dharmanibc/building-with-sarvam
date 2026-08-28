@@ -1,0 +1,39 @@
+# Building with Sarvam — lab dependencies
+#     pip install -r requirements.txt
+#
+# Python 3.11+ recommended (3.10 is the practical floor).
+# On Python 3.13, `audioop` was removed from the stdlib (PEP 594); Lab 02's
+# downsampling cell falls back to a pure-stdlib resampler automatically.
+
+# ── Core — every lab needs these ──────────────────────────────────────────
+sarvamai>=0.1.30          # 0.1.30 added speech_to_text_realtime_streaming
+python-dotenv>=1.0.0
+jupyterlab>=4.0.0
+requests>=2.31.0          # used directly in Labs 06 and 12
+httpx>=0.27.0             # doc fetching in Lab 11; also the SDK's own transport
+websockets>=12.0          # streaming STT/TTS ride on this
+
+# ── Labs 05, 09, 11 — the OpenAI-compatible endpoint ──────────────────────
+openai>=2.41.0            # reasoning_effort became a typed kwarg here
+
+# ── Lab 09 — framework interop ────────────────────────────────────────────
+langchain>=1.0.0          # provides langchain.agents.create_agent
+langchain-openai>=0.3.0
+langgraph>=1.0.0          # langgraph.prebuilt.create_react_agent is deprecated
+langchain-mcp-adapters>=0.3.2   # tool_interceptors extension point
+crewai>=1.14.0
+crewai-tools[mcp]>=0.30.0
+mcpadapt>=0.1.0           # the dependency crewai's error message does NOT name
+litellm>=1.50.0
+
+# ── Labs 09-11 — MCP servers ──────────────────────────────────────────────
+uv>=0.4.0                 # provides `uvx`, used to launch sarvam-mcp
+mcp>=1.2.0                # StdioServerParameters — a plain dict routes to SSE
+
+# ── Labs 06, 12 — documents and analysis ──────────────────────────────────
+reportlab>=4.0.0
+
+# ── Notes ─────────────────────────────────────────────────────────────────
+# The heavy interop stack (langchain/crewai/mcp) is only needed for Labs 09-11.
+# To run Labs 00-08 and 12 alone, the Core block plus openai and reportlab is
+# enough — that is the cheaper install for a classroom.

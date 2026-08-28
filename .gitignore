@@ -1,0 +1,108 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Allowlist .gitignore
+#
+# This file ignores EVERYTHING and then un-ignores only what is meant to be
+# published. A new scratch file, backup folder or stray copy dropped into this
+# directory is therefore invisible to git by default — it can never be swept
+# into a commit by `git add -A`.
+#
+# To publish something new you must add a line for it here. That is the point.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Everything at the root is ignored, then named files are restored ─────────
+/*
+
+!/.gitignore
+!/.env.example
+!/README.md
+!/CHANGELOG.md
+!/CONTRIBUTING.md
+!/LICENSE
+!/requirements.txt
+!/push_to_github.sh
+!/Labs/
+!/Slides/
+!/pdf/
+!/skills/
+
+# ── Labs/ — the notebooks, the two index documents, the generators ───────────
+Labs/*
+!Labs/[01][0-9]_*.ipynb
+!Labs/README_Lab_Index.md
+!Labs/SESSION_FINDINGS_2026-08.md
+!Labs/cost_meter.py
+!Labs/build/
+
+Labs/build/*
+!Labs/build/*.py
+
+# ── Slides/ — the deck index and the generators. The .pptx files are NOT
+#    published: 21 MB of binaries would bloat the history and they rebuild from
+#    the generators. pdf/ carries the readable copy. Attach .pptx to a Release.
+Slides/*
+!Slides/README_Deck_Index.md
+!Slides/build/
+
+Slides/build/*
+!Slides/build/*.js
+!Slides/build/package.json
+!Slides/build/assets/
+
+Slides/build/assets/*
+!Slides/build/assets/logo.png
+
+# ── pdf/ — one PDF per deck, numbered. Nothing else. ─────────────────────────
+pdf/*
+!pdf/[01][0-9]_*.pdf
+
+# ── skills/ — the Agent Skill files and their README ─────────────────────────
+skills/*
+!skills/*.md
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Belt and braces. The rules above already exclude all of these, but naming
+# them documents the intent and protects against a future negation that is
+# broader than it looks.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Secrets — never, under any circumstances
+.env
+*.env
+!.env.example
+*.key
+*.pem
+
+# macOS, editors, Python, Jupyter
+.DS_Store
+._*
+.idea/
+.vscode/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+venv/
+.venv/
+node_modules/
+
+# Office lock files — the `~$Deck.pptx` stubs Word/PowerPoint leaves behind
+~$*
+
+# Working material that lives here but is not published
+Labs_v2/
+_backup_*/
+*.bundle
+* copy.*
+*copy.pptx
+*copy.md
+
+# Lab-generated artefacts — regenerated on every run
+Labs/data/
+Labs/out/
+Labs/skills/
+Labs/context7_mcp_config.json
+
+# NOTE: Labs/cost_meter.py IS published (un-ignored above). Lab 00 writes it,
+# but shipping a copy means a reader who opens Lab 05 first still has a working
+# meter. The committed copy is byte-identical to what Lab 00 emits, so re-running
+# Lab 00 produces no diff. If you change the rates, change them in
+# Labs/build/gen_a.py and re-run Lab 00, then commit both.
